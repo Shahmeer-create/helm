@@ -1,0 +1,15 @@
+
+schedule: "*/30 * * * *"  # Run every 30 minutes
+
+image:
+  repository: training-model
+  tag: latest
+  pullPolicy: Always
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi

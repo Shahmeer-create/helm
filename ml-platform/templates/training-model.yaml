@@ -1,0 +1,25 @@
+
+{{- if .Values.trainingModel.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: training-model
+  labels:
+    {{- include "ml-platform.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.trainingModel.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: training-model
+              image: {{ .Values.global.imageRegistry }}/{{ .Values.trainingModel.image.repository }}:{{ .Values.trainingModel.image.tag }}
+              env:
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.global.db.secretName }}
+                      key: DB_PASSWORD
+          restartPolicy: OnFailure
+{{- end }}

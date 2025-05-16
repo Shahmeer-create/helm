@@ -1,0 +1,6 @@
+
+apiVersion: v2
+name: serving-model
+description: Model serving service
+version: 0.1.0
+type: application

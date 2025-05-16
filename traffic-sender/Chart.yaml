@@ -1,0 +1,6 @@
+
+apiVersion: v2
+name: traffic-sender
+description: Traffic generator service
+version: 0.1.0
+type: application

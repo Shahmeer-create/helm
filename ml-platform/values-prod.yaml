@@ -1,0 +1,78 @@
+
+global:
+  imageRegistry: "082282578356.dkr.ecr.eu-central-1.amazonaws.com"
+  db:
+    host: "rds-for-eks.cvyiqkeaq39c.eu-central-1.rds.amazonaws.com"
+    name: "eks_database"
+    user: "postgres"
+    secretName: "db-secret"
+  scaling:
+    target_cpu_utilization: 70
+
+tenants:
+  tenant-a:
+    domain: "tenant-a.testing.talhasghar.site"
+    resources:
+      min_replicas: 2
+      max_replicas: 5
+      cpu_request: "100m"
+      memory_request: "256Mi"
+      cpu_limit: "200m"
+      memory_limit: "512Mi"
+
+  tenant-b:
+    domain: "tenant-b.testing.talhasghar.site"
+    resources:
+      min_replicas: 2
+      max_replicas: 5
+      cpu_request: "100m"
+      memory_request: "256Mi"
+      cpu_limit: "200m"
+      memory_limit: "512Mi"
+
+  tenant-c:
+    domain: "tenant-c.testing.talhasghar.site"
+    resources:
+      min_replicas: 2
+      max_replicas: 5
+      cpu_request: "100m"
+      memory_request: "256Mi"
+      cpu_limit: "200m"
+      memory_limit: "512Mi"
+
+gateway:
+  enabled: true
+  image:
+    repository: gateway
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: "alb"
+    annotations:
+      alb.ingress.kubernetes.io/scheme: "internet-facing"
+      alb.ingress.kubernetes.io/target-type: "ip"
+      alb.ingress.kubernetes.io/group.name: "ml-platform"
+      alb.ingress.kubernetes.io/load-balancer-name: "ml-platform-alb"
+      alb.ingress.kubernetes.io/healthcheck-path: "/health"
+
+servingModel:
+  enabled: true
+  image:
+    repository: serving-model
+    tag: latest
+
+trainingModel:
+  enabled: true
+  image:
+    repository: training-model
+    tag: latest
+
+trafficSender:
+  enabled: true
+  image:
+    repository: traffic-sender
+    tag: latest

@@ -1,0 +1,5 @@
+
+{{- if .Values.trafficSender.enabled }}
+# Traffic Sender CronJob similar to training-model.yaml
+# [Content similar to training-model but for traffic-sender]
+{{- end }}

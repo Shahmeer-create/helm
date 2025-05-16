@@ -1,0 +1,92 @@
+
+# Global configuration
+global:
+  imageRegistry: "082282578356.dkr.ecr.eu-central-1.amazonaws.com"
+  db:
+    host: "rds-for-eks.cvyiqkeaq39c.eu-central-1.rds.amazonaws.com"
+    name: "eks_database"
+    user: "postgres"
+    secretName: "db-secret"
+  scaling:
+    target_cpu_utilization: 70
+
+# Default tenant configuration
+tenants:
+  tenant-a:
+    domain: "tenant-a.testing.talhasghar.site"
+    resources:
+      min_replicas: 1
+      max_replicas: 3
+      cpu_request: "100m"
+      memory_request: "256Mi"
+      cpu_limit: "200m"
+      memory_limit: "512Mi"
+
+  tenant-b:
+    domain: "tenant-b.testing.talhasghar.site"
+    resources:
+      min_replicas: 1
+      max_replicas: 3
+      cpu_request: "100m"
+      memory_request: "256Mi"
+      cpu_limit: "200m"
+      memory_limit: "512Mi"
+
+  tenant-c:
+    domain: "tenant-c.testing.talhasghar.site"
+    resources:
+      min_replicas: 1
+      max_replicas: 3
+      cpu_request: "100m"
+      memory_request: "256Mi"
+      cpu_limit: "200m"
+      memory_limit: "512Mi"
+
+# Gateway configuration
+gateway:
+  enabled: true
+  image:
+    repository: gateway
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: "alb"
+    annotations:
+      alb.ingress.kubernetes.io/scheme: "internet-facing"
+      alb.ingress.kubernetes.io/target-type: "ip"
+      alb.ingress.kubernetes.io/group.name: "ml-platform"
+      alb.ingress.kubernetes.io/load-balancer-name: "ml-platform-alb"
+      alb.ingress.kubernetes.io/healthcheck-path: "/health"
+      alb.ingress.kubernetes.io/success-codes: "200"
+      alb.ingress.kubernetes.io/healthcheck-interval-seconds: "15"
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+      alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+      alb.ingress.kubernetes.io/unhealthy-threshold-count: "2"
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+
+# Other services configuration remains the same
+servingModel:
+  enabled: true
+  image:
+    repository: serving-model
+    tag: latest
+  service:
+    port: 8081
+
+trainingModel:
+  enabled: true
+  schedule: "*/15 * * * *"
+  image:
+    repository: training-model
+    tag: latest
+
+trafficSender:
+  enabled: true
+  schedule: "*/5 * * * *"
+  image:
+    repository: traffic-sender
+    tag: latest

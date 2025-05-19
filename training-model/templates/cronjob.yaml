@@ -1,18 +1,25 @@
-
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: training-model
 spec:
-  schedule: {{ .Values.schedule | quote }}
+  schedule: {{ .Values.trainingModel.schedule | quote }}
   jobTemplate:
     spec:
       template:
         spec:
           containers:
             - name: training-model
-              image: {{ .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+              image: {{ .Values.global.imageRegistry }}/{{ .Values.trainingModel.image.repository }}:{{ .Values.trainingModel.image.tag }}
               env:
+                - name: DB_HOST
+                  value: {{ .Values.global.db.host }}
+                - name: DB_NAME
+                  value: {{ .Values.global.db.name }}
+                - name: DB_USER
+                  value: {{ .Values.global.db.user }}
+                - name: DB_PORT
+                  value: "5432"
                 - name: DB_PASSWORD
                   valueFrom:
                     secretKeyRef:

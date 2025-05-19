@@ -1,15 +1,14 @@
-
 # Global values shared across all charts
 global:
   # Database config (shared across services)
   db:
-    host: "rds-for-eks.cvyiqkeaq39c.eu-central-1.rds.amazonaws.com"
-    name: "eks_database"
-    user: "postgres"
+    host: "database-2.cluster-ch4kwmsespel.ap-south-1.rds.amazonaws.com"
+    name: "first_1"
+    user: "postgre"
     secretName: "db-secret"  # Contains DB_PASSWORD
 
   # Image registry
-  imageRegistry: "082282578356.dkr.ecr.eu-central-1.amazonaws.com"
+  imageRegistry: "615299766383.dkr.ecr.ap-south-1.amazonaws.com"
   
   # Common labels
   labels:

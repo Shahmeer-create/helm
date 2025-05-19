@@ -1,18 +1,25 @@
-
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: traffic-sender
 spec:
-  schedule: {{ .Values.schedule | quote }}
+  schedule: {{ .Values.trafficSender.schedule | quote }}
   jobTemplate:
     spec:
       template:
         spec:
           containers:
             - name: traffic-sender
-              image: {{ .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+              image: {{ .Values.global.imageRegistry }}/{{ .Values.trafficSender.image.repository }}:{{ .Values.trafficSender.image.tag }}
               env:
+                - name: DB_HOST
+                  value: {{ .Values.global.db.host }}
+                - name: DB_NAME
+                  value: {{ .Values.global.db.name }}
+                - name: DB_USER
+                  value: {{ .Values.global.db.user }}
+                - name: DB_PORT
+                  value: "5432"
                 - name: DB_PASSWORD
                   valueFrom:
                     secretKeyRef:

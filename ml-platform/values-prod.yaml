@@ -1,51 +1,47 @@
-
 global:
-  imageRegistry: "082282578356.dkr.ecr.eu-central-1.amazonaws.com"
+  imageRegistry: "615299766383.dkr.ecr.ap-south-1.amazonaws.com"
   db:
-    host: "rds-for-eks.cvyiqkeaq39c.eu-central-1.rds.amazonaws.com"
-    name: "eks_database"
-    user: "postgres"
+    host: "database-2.cluster-ch4kwmsespel.ap-south-1.rds.amazonaws.com"
+    name: "first_1"
+    user: "postgre"
     secretName: "db-secret"
   scaling:
     target_cpu_utilization: 70
 
 tenants:
   tenant-a:
-    domain: "tenant-a.testing.talhasghar.site"
     resources:
       min_replicas: 2
       max_replicas: 5
-      cpu_request: "100m"
-      memory_request: "256Mi"
-      cpu_limit: "200m"
-      memory_limit: "512Mi"
+      cpu_request: "75m"
+      memory_request: "192Mi"
+      cpu_limit: "150m"
+      memory_limit: "384Mi"
 
   tenant-b:
-    domain: "tenant-b.testing.talhasghar.site"
     resources:
       min_replicas: 2
       max_replicas: 5
-      cpu_request: "100m"
-      memory_request: "256Mi"
-      cpu_limit: "200m"
-      memory_limit: "512Mi"
+      cpu_request: "75m"
+      memory_request: "192Mi"
+      cpu_limit: "150m"
+      memory_limit: "384Mi"
 
   tenant-c:
-    domain: "tenant-c.testing.talhasghar.site"
     resources:
       min_replicas: 2
       max_replicas: 5
-      cpu_request: "100m"
-      memory_request: "256Mi"
-      cpu_limit: "200m"
-      memory_limit: "512Mi"
+      cpu_request: "75m"
+      memory_request: "192Mi"
+      cpu_limit: "150m"
+      memory_limit: "384Mi"
 
 gateway:
   enabled: true
   image:
-    repository: gateway
+    repository: ml-platform/gateway-service
     tag: latest
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   service:
     type: ClusterIP
     port: 8080
@@ -62,17 +58,28 @@ gateway:
 servingModel:
   enabled: true
   image:
-    repository: serving-model
+    repository: ml-platform/serving-service
     tag: latest
-
+  service:
+    port: 8081
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 75m
+      memory: 96Mi
+    limits:
+      cpu: 150m
+      memory: 192Mi
 trainingModel:
   enabled: true
+  schedule: "*/30 * * * *"  # Every 30 minutes to match earlier behavior
   image:
-    repository: training-model
+    repository: ml-platform/training-service
     tag: latest
 
 trafficSender:
   enabled: true
+  schedule: "*/5 * * * *"  # Every 5 minutes to match earlier behavior
   image:
-    repository: traffic-sender
+    repository: ml-platform/traffic-sender
     tag: latest

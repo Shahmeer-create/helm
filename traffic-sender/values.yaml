@@ -1,15 +1,14 @@
-
 schedule: "*/5 * * * *"  # Run every 5 minutes
 
 image:
-  repository: traffic-sender
+  repository: ml-platform/traffic-sender
   tag: latest
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 resources:
   requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
     cpu: 100m
     memory: 128Mi
-  limits:
-    cpu: 200m
-    memory: 256Mi

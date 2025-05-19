@@ -1,4 +1,3 @@
-
 {{- if .Values.trainingModel.enabled }}
 apiVersion: batch/v1
 kind: CronJob
@@ -16,6 +15,14 @@ spec:
             - name: training-model
               image: {{ .Values.global.imageRegistry }}/{{ .Values.trainingModel.image.repository }}:{{ .Values.trainingModel.image.tag }}
               env:
+                - name: DB_HOST
+                  value: {{ .Values.global.db.host }}
+                - name: DB_NAME
+                  value: {{ .Values.global.db.name }}
+                - name: DB_USER
+                  value: {{ .Values.global.db.user }}
+                - name: DB_PORT
+                  value: "5432"
                 - name: DB_PASSWORD
                   valueFrom:
                     secretKeyRef:

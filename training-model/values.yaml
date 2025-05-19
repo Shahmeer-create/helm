@@ -1,15 +1,14 @@
-
 schedule: "*/30 * * * *"  # Run every 30 minutes
 
 image:
-  repository: training-model
+  repository: ml-platform/training-service
   tag: latest
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 resources:
   requests:
-    cpu: 500m
-    memory: 512Mi
+    cpu: 100m
+    memory: 128Mi
   limits:
-    cpu: 1000m
-    memory: 1Gi
+    cpu: 200m
+    memory: 256Mi

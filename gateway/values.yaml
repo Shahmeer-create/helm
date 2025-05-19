@@ -1,11 +1,10 @@
-
 # Default values for gateway service
-replicaCount: 2
+replicaCount: 1
 
 image:
-  repository: gateway
+  repository: ml-platform/gateway-service
   tag: latest
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
@@ -25,8 +24,8 @@ ingress:
 
 resources:
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 50m
+    memory: 64Mi
   limits:
-    cpu: 200m
-    memory: 256Mi
+    cpu: 50m
+    memory: 64Mi

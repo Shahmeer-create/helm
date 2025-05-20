@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: training-model
-              image: {{ .Values.global.imageRegistry }}/{{ .Values.trainingModel.image.repository }}:{{ .Values.trainingModel.image.tag }}
+              image: {{ .Values.trainingModel.image.repository }}:{{ .Values.trainingModel.image.tag }}
               env:
                 - name: DB_HOST
                   value: {{ .Values.global.db.host }}

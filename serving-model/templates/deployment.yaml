@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: serving-model
-          image: {{ .Values.global.imageRegistry }}/{{ .Values.servingModel.image.repository }}:{{ .Values.servingModel.image.tag }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
             - containerPort: 8081
           env:

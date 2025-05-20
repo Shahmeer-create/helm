@@ -1,5 +1,4 @@
 global:
-  imageRegistry: "615299766383.dkr.ecr.ap-south-1.amazonaws.com"
   db:
     host: "database-2.cluster-ch4kwmsespel.ap-south-1.rds.amazonaws.com"
     name: "first_1"
@@ -39,7 +38,7 @@ tenants:
 gateway:
   enabled: true
   image:
-    repository: ml-platform/gateway-service
+    repository: 615299766383.dkr.ecr.ap-south-1.amazonaws.com/my-app-gateway
     tag: latest
     pullPolicy: IfNotPresent
   service:
@@ -58,7 +57,7 @@ gateway:
 servingModel:
   enabled: true
   image:
-    repository: ml-platform/serving-service
+    repository: 615299766383.dkr.ecr.ap-south-1.amazonaws.com/my-app-serving
     tag: latest
   service:
     port: 8081
@@ -74,12 +73,12 @@ trainingModel:
   enabled: true
   schedule: "*/30 * * * *"  # Every 30 minutes to match earlier behavior
   image:
-    repository: ml-platform/training-service
+    repository: 615299766383.dkr.ecr.ap-south-1.amazonaws.com/my-app-training
     tag: latest
 
 trafficSender:
   enabled: true
   schedule: "*/5 * * * *"  # Every 5 minutes to match earlier behavior
   image:
-    repository: ml-platform/traffic-sender
+    repository: 615299766383.dkr.ecr.ap-south-1.amazonaws.com/my-app-traffic
     tag: latest

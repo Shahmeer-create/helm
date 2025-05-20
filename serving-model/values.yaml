@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: ml-platform/serving-service
+  repository: 615299766383.dkr.ecr.ap-south-1.amazonaws.com/my-app-serving
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -16,3 +16,10 @@ resources:
   limits:
     cpu: 100m
     memory: 128Mi
+
+global:
+  db:
+    host: "database-2.cluster-ch4kwmsespel.ap-south-1.rds.amazonaws.com"
+    name: "first_1"
+    user: "postgre"
+    secretName: "db-secret"

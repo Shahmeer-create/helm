@@ -1,5 +1,32 @@
-
 {{- if .Values.trafficSender.enabled }}
-# Traffic Sender CronJob similar to training-model.yaml
-# [Content similar to training-model but for traffic-sender]
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: traffic-sender
+  labels:
+    {{- include "ml-platform.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.trafficSender.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: traffic-sender
+              image: {{ .Values.trafficSender.image.repository }}:{{ .Values.trafficSender.image.tag }}
+              env:
+                - name: DB_HOST
+                  value: {{ .Values.global.db.host }}
+                - name: DB_NAME
+                  value: {{ .Values.global.db.name }}
+                - name: DB_USER
+                  value: {{ .Values.global.db.user }}
+                - name: DB_PORT
+                  value: "5432"
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.global.db.secretName }}
+                      key: DB_PASSWORD
+          restartPolicy: OnFailure
 {{- end }}

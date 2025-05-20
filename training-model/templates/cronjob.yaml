@@ -3,14 +3,14 @@ kind: CronJob
 metadata:
   name: training-model
 spec:
-  schedule: {{ .Values.trainingModel.schedule | quote }}
+  schedule: {{ .Values.schedule | quote }}
   jobTemplate:
     spec:
       template:
         spec:
           containers:
             - name: training-model
-              image: {{ .Values.global.imageRegistry }}/{{ .Values.trainingModel.image.repository }}:{{ .Values.trainingModel.image.tag }}
+              image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
               env:
                 - name: DB_HOST
                   value: {{ .Values.global.db.host }}

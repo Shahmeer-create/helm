@@ -3,14 +3,14 @@ kind: CronJob
 metadata:
   name: traffic-sender
 spec:
-  schedule: {{ .Values.trafficSender.schedule | quote }}
+  schedule: {{ .Values.schedule | quote }}
   jobTemplate:
     spec:
       template:
         spec:
           containers:
             - name: traffic-sender
-              image: {{ .Values.global.imageRegistry }}/{{ .Values.trafficSender.image.repository }}:{{ .Values.trafficSender.image.tag }}
+              image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
               env:
                 - name: DB_HOST
                   value: {{ .Values.global.db.host }}

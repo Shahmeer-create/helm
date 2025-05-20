@@ -1,7 +1,7 @@
 schedule: "*/30 * * * *"  # Run every 30 minutes
 
 image:
-  repository: ml-platform/training-service
+  repository: 615299766383.dkr.ecr.ap-south-1.amazonaws.com/my-app-training
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -12,3 +12,10 @@ resources:
   limits:
     cpu: 200m
     memory: 256Mi
+
+global:
+  db:
+    host: "database-2.cluster-ch4kwmsespel.ap-south-1.rds.amazonaws.com"
+    name: "first_1"
+    user: "postgre"
+    secretName: "db-secret"

@@ -1,6 +1,5 @@
 # Global configuration
 global:
-  imageRegistry: "615299766383.dkr.ecr.ap-south-1.amazonaws.com"
   db:
     host: "database-2.cluster-ch4kwmsespel.ap-south-1.rds.amazonaws.com"
     name: "first_1"
@@ -42,7 +41,7 @@ tenants:
 gateway:
   enabled: true
   image:
-    repository: ml-platform/gateway-service
+    repository: 615299766383.dkr.ecr.ap-south-1.amazonaws.com/my-app-gateway
     tag: latest
     pullPolicy: IfNotPresent
   service:
@@ -63,12 +62,12 @@ gateway:
       alb.ingress.kubernetes.io/healthy-threshold-count: "2"
       alb.ingress.kubernetes.io/unhealthy-threshold-count: "2"
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
-
+      alb.ingress.kubernetes.io/subnets: subnet-0c379f3aed67d344b,subnet-0499e833f13c685e3 # Replace with your subnet IDs
 # Other services configuration
 servingModel:
   enabled: true
   image:
-    repository: ml-platform/serving-service
+    repository: 615299766383.dkr.ecr.ap-south-1.amazonaws.com/my-app-serving
     tag: latest
   service:
     port: 8081
@@ -77,18 +76,17 @@ trainingModel:
   enabled: true
   schedule: "*/30 * * * *"  # Every 30 minutes to match earlier behavior
   image:
-    repository: ml-platform/training-service
+    repository: 615299766383.dkr.ecr.ap-south-1.amazonaws.com/my-app-training
     tag: latest
   service:
     port: 8081
   replicaCount: 1
 
-
 trafficSender:
   enabled: true
   schedule: "*/5 * * * *"
   image:
-    repository: ml-platform/traffic-sender
+    repository: 615299766383.dkr.ecr.ap-south-1.amazonaws.com/my-app-traffic
     tag: latest
   service:
     port: 8081
